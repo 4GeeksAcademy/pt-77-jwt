@@ -9,7 +9,7 @@ export const Signup = () => {
 
     const handleSignup = () => {
         signup(user)
-        // navigate("/")
+        navigate("/")
     }
 
     return (

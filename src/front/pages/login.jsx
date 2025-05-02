@@ -31,8 +31,9 @@ export const Login = () => {
                         type="password"
                         className="form-control"
                         aria-label="Sizing example input"
-                        aria-describedby="inputGroup-sizing-default" />
-                    onChange={(e) => setUser({ ...user, password: e.target.value })}
+                        aria-describedby="inputGroup-sizing-default" 
+                        onChange={(e) => setUser({ ...user, password: e.target.value })}
+                    />
                 </div>
             </div>
             <button className="btn btn-info" onClick={() => handleLogin()}>Submit</button>

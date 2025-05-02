@@ -9,7 +9,6 @@ from flask_jwt_extended import get_jwt_identity, create_access_token, jwt_requir
 import hashlib
 
 
-
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
@@ -25,33 +24,38 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+
 @api.route('/signup', methods=['POST'])
 def handle_signup():
     body = request.get_json()
     body_email = body['email']
-    body_password = hashlib.sha256(body['password'].encode("utf-8")).hexdigest()
-    user = User(email = body_email, password = body_password)
+    body_password = hashlib.sha256(
+        body['password'].encode("utf-8")).hexdigest()
+    user = User(email=body_email, password=body_password)
 
     db.session.add(user)
     db.session.commit()
 
     return jsonify("User created"), 200
-    
+
+
 @api.route('/login', methods=['POST'])
 def handle_login():
     body = request.get_json()
     body_email = body['email']
-    body_password = hashlib.sha256(body['password'].encode("utf-8")).hexdigest()
-    user = User.query.filter_by(email = body_email).first()
+    body_password = hashlib.sha256(
+        body['password'].encode("utf-8")).hexdigest()
+    user = User.query.filter_by(email=body_email).first()
     if user and user.password == body_password:
-        access_token = create_access_token(identity = user.email)
-        return jsonify(access_token=access_token, user=user), 200
+        access_token = create_access_token(identity=user.email)
+        return jsonify(access_token=access_token, user=user.serialize()), 200
     else:
         return jsonify("User not found"), 400
-    
+
+
 @api.route('/private', methods=['GET'])
 @jwt_required()
 def handle_get_user():
     user_email = get_jwt_identity()
-    user = User.query.filter_by(email = user_email).first()
-    return jsonify(user), 200
+    user = User.query.filter_by(email=user_email).first()
+    return jsonify(user=user.serialize()), 200

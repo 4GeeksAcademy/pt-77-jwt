@@ -1,6 +1,8 @@
 import React, { useEffect } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { Private } from "./private.jsx";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
 
@@ -47,6 +49,7 @@ export const Home = () => {
 					</span>
 				)}
 			</div>
+			<Link to={"/profile"}>Look at your stuff</Link>
 		</div>
 	);
 }; 
